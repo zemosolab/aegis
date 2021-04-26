@@ -1,0 +1,96 @@
+version: "3.7"
+services:
+  postgres:
+    container_name: postgres
+    restart: always
+    image: postgres
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=aegis
+    volumes:
+      - ./data-volume:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+      
+  mongo:
+    image: mongo:latest
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ram
+      MONGO_INITDB_ROOT_PASSWORD: password
+    ports:
+      - 27018:27017
+    volumes:
+      - ./mongodb_data_container:/data/db
+
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq
+    hostname: rabbitmq
+    environment:
+      - RABBITMQ_DEFAULT_USER=ram
+      - RABBITMQ_DEFAULT_PASS=password
+    ports:
+      - "5673:5672"
+      - "15673:15672"
+      
+  card:
+    container_name: card
+    image: 'card:latest'
+    restart: always
+    build:
+      context: ./card-management
+    ports:
+      - 8011:8011
+    volumes:
+      - ./card-management/target:/app
+    env_file:
+      - ./card-management/.env
+    depends_on:
+      - postgres
+  device:
+    container_name: device
+    image: 'device:latest'
+    restart: always
+    build:
+      context: ./device-management
+    ports:
+      - 8012:8012
+    volumes:
+      - ./device-management/target:/app
+    env_file:
+      - ./card-management/.env
+    depends_on:
+      - rabbitmq
+  event:
+    container_name: event
+    image: 'event:latest'
+    restart: always
+    build:
+      context: ./event-management
+    ports:
+      - 8013:8013
+    volumes:
+      - ./event-management/target:/app
+    env_file:
+      - ./event-management/.env
+    depends_on:
+      - mongo
+      - rabbitmq
+  user:
+    container_name: user
+    image: 'user:latest'
+    restart: always
+    build:
+      context: ./user-management
+    ports:
+      - 8014:8014
+    volumes:
+      - ./user-management/target:/app
+    env_file:
+      - ./user-management/.env
+    depends_on:
+      - postgres
+      
+volumes:
+  mongodb_data_container:

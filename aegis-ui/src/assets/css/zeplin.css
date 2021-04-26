@@ -1,0 +1,73 @@
+.plus_circle-1427 {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  background-color: rgba(255, 255, 255, 0);
+}
+
+.container {
+  width: 100%;
+  height: 100%;
+  background-color: #f8f8f8;
+}
+
+.base {
+  width: 94%;
+  height: 90%;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.04);
+  border: solid 1px var(--very-light-blue);
+  margin-top: 1%;
+  margin-bottom: 1%;
+  margin-left: 3%;
+  background-color: #ffffff;
+}
+
+.card {
+  width: 110px;
+  height: 28px;
+  font-family: "Roboto";
+  font-size: 18px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.56;
+  letter-spacing: normal;
+  text-align: center;
+  color: #ffffff;
+}
+
+.assign {
+  width: 200px;
+  height: 120px;
+  border-radius: 4px;
+  background-image: linear-gradient(to right, #6758f3, #915cf4 101%);
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 5%;
+}
+
+.block {
+  width: 200px;
+  height: 120px;
+  border-radius: 4px;
+  background-image: linear-gradient(to left, #facf55 100%, #f6ab2f 0%);
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 5%;
+}
+
+.extend {
+  width: 200px;
+  height: 120px;
+  border-radius: 4px;
+  background-image: linear-gradient(to left, #c6cbd3 100%, #f6ab2f 0%);
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
