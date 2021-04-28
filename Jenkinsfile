@@ -13,7 +13,7 @@ pipeline {
 						script {
 							sh 'pwd'
 						}
-						build job: 'Jenkinsfile', propagate: true, wait: true
+						build job: '/Jenkinsfile', propagate: true, wait: true
 					}
 				}
 			}
