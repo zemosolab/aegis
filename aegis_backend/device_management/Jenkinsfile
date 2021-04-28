@@ -1,47 +1,50 @@
 def runjob(){
 	pipeline {
-	  environment {
-	    registry = "ajayram/test"
-	    registryCredential = 'dockerhub_id'
-	    dockerImage = ''
-	  }
-	  stages {
-	    stage('Cloning Git') {
-	      steps {
-		git 'https://github.com/zemoso-int/aegis.git'
-	      }
-	    }
-	    
-	    stage('Build Project'){
-	      steps{
-		script{
-		  sh 'cd device-management'
-		  sh 'mvn clean package'
+		environment {
+			registry = "ajayram/test"
+			registryCredential = 'dockerhub_id'
+			dockerImage = ''
 		}
-	      }
-	    }
-	    stage('Building image') {
-	      steps{
-		script {
-		  dockerImage = docker.build registry + ":$BUILD_NUMBER"
+		agent any
+		stages {
+			stage('Cloning Git') {
+				steps {
+					git 'https://github.com/zemoso-int/aegis.git'
+				}
+			}
+
+			stage('Build Project'){
+				steps{
+					script{
+						sh 'cd aegis_backend/device_management'
+						sh 'mvn clean package'
+					}
+				}
+			}
+			stage('Building image') {
+				steps{
+					script {
+						dockerImage = docker.build registry + ":$BUILD_NUMBER"
+					}
+				}
+			}
+			stage('Deploy Image') {
+				steps{
+					script {
+						docker.withRegistry( '', registryCredential ) {
+							dockerImage.push()
+						}
+					}
+				}
+			}
+			stage('Remove Unused docker image') {
+				steps{
+					script {
+						sh "docker rmi $registry:$BUILD_NUMBER"
+					}
+				}
+			}
 		}
-	      }
-	    }
-	    stage('Deploy Image') {
-	      steps{
-		script {
-		  docker.withRegistry( '', registryCredential ) {
-		    dockerImage.push()
-		  }
-		}
-	      }
-	    }
-	    stage('Remove Unused docker image') {
-	      steps{
-		sh "docker rmi $registry:$BUILD_NUMBER"
-	      }
-	    }
-	  }
 	}
 }
 return this
