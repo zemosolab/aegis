@@ -16,9 +16,12 @@ pipeline {
 			steps{
 				script{
 					sh 'echo enterd1'
-					sh 'cd aegis_backend/card_management'
 					sh 'pwd'
+					dir('aegis_backend/card_management') {
+      						sh 'pwd'
+    					}
 					sh 'ls -a'
+					sh 'pwd'
 					sh 'mvn clean package'
 					sh ls
 					sh 'echo exited1'
