@@ -1,0 +1,25 @@
+pipeline{
+  agent any
+  stages{
+    stage('build card-management'){
+      steps{
+        build job: 'card-management/Jenkinsfile', propagate: true, wait: true
+      }
+    }
+    stage('build device-management'){
+      steps{
+        build job: 'device-management/Jenkinsfile', propagate: true, wait: true
+      }
+    }
+    stage('build event-management'){
+      steps{
+        build job: 'event-management/Jenkinsfile', propagate: true, wait: true
+      }
+    }
+    stage('build user-management'){
+      steps{
+        build job: 'user-management/Jenkinsfile', propagate: true, wait: true
+      }
+    }
+  }
+}

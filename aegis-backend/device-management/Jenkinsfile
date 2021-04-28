@@ -1,0 +1,45 @@
+pipeline {
+  environment {
+    registry = "ajayram/test"
+    registryCredential = 'dockerhub_id'
+    dockerImage = ''
+  }
+  agent any
+  stages {
+    stage('Cloning Git') {
+      steps {
+        git 'https://github.com/zemoso-int/aegis.git'
+      }
+    }
+    
+    stage('Build Project'){
+      steps{
+        script{
+          sh 'cd device-management'
+          sh 'mvn clean package'
+        }
+      }
+    }
+    stage('Building image') {
+      steps{
+        script {
+          dockerImage = docker.build registry + ":$BUILD_NUMBER"
+        }
+      }
+    }
+    stage('Deploy Image') {
+      steps{
+        script {
+          docker.withRegistry( '', registryCredential ) {
+            dockerImage.push()
+          }
+        }
+      }
+    }
+    stage('Remove Unused docker image') {
+      steps{
+        sh "docker rmi $(docker images -aq)
+      }
+    }
+  }
+}
