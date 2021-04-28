@@ -4,7 +4,7 @@ pipeline {
     stage('build card-management') {
       steps {
         script {
-          mainJenkinsFile = load "aegis-backend/card-management/Jenkinsfile"
+          mainJenkinsFile = load "aegis_backend/card_management/Jenkinsfile"
           mainJenkinsFile.runjob()
         }
       }
@@ -12,7 +12,7 @@ pipeline {
     stage('build device-management') {
       steps {
       	script {
-          mainJenkinsFile = load "aegis-backend/device-management/Jenkinsfile"
+          mainJenkinsFile = load "aegis_backend/device_management/Jenkinsfile"
           mainJenkinsFile.runjob()
        }
       }
@@ -20,7 +20,7 @@ pipeline {
     stage('build event-management') {
       steps {
         script {
-          mainJenkinsFile = load "aegis-backend/event-management/Jenkinsfile"
+          mainJenkinsFile = load "aegis_backend/event_management/Jenkinsfile"
           mainJenkinsFile.runjob()
         }
       }
@@ -28,7 +28,7 @@ pipeline {
     stage('build user-management') {
       steps {
         script {
-          mainJenkinsFile = load "aegis-backend/user-management/Jenkinsfile"
+          mainJenkinsFile = load "aegis_backend/user_management/Jenkinsfile"
           mainJenkinsFile.runjob()
         }
       }
