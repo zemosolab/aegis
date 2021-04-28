@@ -16,32 +16,43 @@ def runjob() {
 			stage('Build Project'){
 				steps{
 					script{
+						sh 'echo enterd1'
 						sh 'cd aegis_backend/card_management'
 						sh 'mvn clean package'
+						sh ls
+						sh 'echo exited1'
+						
 					}
 				}
 			}
 			stage('Building image') {
 				steps{
 					script {
+						sh 'echo enterd2'
 						dockerImage = docker.build registry + ":$BUILD_NUMBER"
+						sh 'echo $dockerImage'
+						sh 'echo enterd2'
 					}
 				}
 			}
 			stage('Deploy Image') {
 				steps{
 					script {
+						sh 'echo enterd3'
 						docker.withRegistry( '', registryCredential ) {
 							dockerImage.push()
 						}
+						sh 'echo enterd3'
 					}
 				}
 			}
 			stage('Remove Unused docker image') {
 				steps{
+					sh 'echo enterd4'
 					script {
 						sh "docker rmi $registry:$BUILD_NUMBER"
 					}
+					sh 'echo enterd4'
 				}
 			}
 		}
