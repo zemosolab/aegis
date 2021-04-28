@@ -17,6 +17,8 @@ pipeline {
 				script{
 					sh 'echo enterd1'
 					sh 'cd aegis_backend/card_management'
+					sh 'echo pwd'
+					sh 'echo ls -a'
 					sh 'mvn clean package'
 					sh ls
 					sh 'echo exited1'
