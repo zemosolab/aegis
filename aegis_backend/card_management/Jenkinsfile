@@ -1,53 +1,56 @@
-pipeline {
-	environment {
-		registry = "ajayram/test"
-		registryCredential = 'dockerhub_id'
-		dockerImage = ''
-		imageName='card'+':$BUILD_NUMBER'
-	}
-	agent any
-	stages {
-		stage('Cloning Git') {
-			steps{
-				git 'https://github.com/zemoso-int/aegis.git'
-			}
+def runJob(){
+	pipeline {
+		environment {
+			registry = "ajayram/test"
+			registryCredential = 'dockerhub_id'
+			dockerImage = ''
+			imageName='card'+':$BUILD_NUMBER'
 		}
+		agent any
+		stages {
+			stage('Cloning Git') {
+				steps{
+					git 'https://github.com/zemoso-int/aegis.git'
+				}
+			}
 
-		stage('Build Project'){
-			steps{
-				script{
-					dir('aegis_backend/card_management') {
-						sh 'mvn clean package -DskipTests'
-    					}
-					
-				}
-			}
-		}
-		stage('Building image') {
-			steps{
-				script {
-					dir('aegis_backend/card_management') {
-						dockerImage = docker.build registry + imageName
+			stage('Build Project'){
+				steps{
+					script{
+						dir('aegis_backend/card_management') {
+							sh 'mvn clean package -DskipTests'
+	    					}
+						
 					}
 				}
 			}
-		}
-		stage('Deploy Image') {
-			steps{
-				script {
-					docker.withRegistry( '', registryCredential ) {
-						dockerImage.push()
+			stage('Building image') {
+				steps{
+					script {
+						dir('aegis_backend/card_management') {
+							dockerImage = docker.build registry + imageName
+						}
 					}
 				}
 			}
-		}
-		stage('Remove Unused docker image') {
-			steps{
-				script {
-					sh "docker rmi $registry:imageName"
+			stage('Deploy Image') {
+				steps{
+					script {
+						docker.withRegistry( '', registryCredential ) {
+							dockerImage.push()
+						}
+					}
+				}
+			}
+			stage('Remove Unused docker image') {
+				steps{
+					script {
+						sh "docker rmi $registry:imageName"
+					}
 				}
 			}
 		}
 	}
 }
 
+return this
