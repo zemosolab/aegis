@@ -4,28 +4,32 @@ pipeline {
     stage('build card-management') {
       steps {
         script {
-          build job: 'aegis-backend/card-management/Jenkinsfile', propagate: true, wait: true
+          mainJenkinsFile = load "aegis-backend/card-management/Jenkinsfile"
+          mainJenkinsFile.runjob()
         }
       }
     }
     stage('build device-management') {
       steps {
       	script {
-          build job: 'aegis-backend/device-management/Jenkinsfile', propagate: true, wait: true
+          mainJenkinsFile = load "aegis-backend/device-management/Jenkinsfile"
+          mainJenkinsFile.runjob()
        }
       }
     }
     stage('build event-management') {
       steps {
         script {
-          build job: 'aegis-backend/event-management/Jenkinsfile', propagate: true, wait: true
+          mainJenkinsFile = load "aegis-backend/event-management/Jenkinsfile"
+          mainJenkinsFile.runjob()
         }
       }
     }
     stage('build user-management') {
       steps {
         script {
-          build job: 'aegis-backend/user-management/Jenkinsfile', propagate: true, wait: true
+          mainJenkinsFile = load "aegis-backend/user-management/Jenkinsfile"
+          mainJenkinsFile.runjob()
         }
       }
     }
