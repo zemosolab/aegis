@@ -1,35 +1,56 @@
 pipeline {
 	agent any
 	stages {
+		stage('clone code from repo'){
+			steps{
+				git 'https://github.com/zemoso-int/aegis.git'
+			}
+		}
 		stage('build card-management') {
 			steps {
 				script {
-					mainJenkinsFile = load "aegis_backend/card_management/Jenkinsfile"
-					mainJenkinsFile.runjob()
+					dir('aegis_backend/card_management') {
+						script {
+							sh 'pwd'
+						}
+						build job: 'Jenkinsfile', propagate: true, wait: true
+					}
 				}
 			}
 		}
 		stage('build device-management') {
 			steps {
 				script {
-					mainJenkinsFile = load "aegis_backend/device_management/Jenkinsfile"
-					mainJenkinsFile.runjob()
+					dir('aegis_backend/device_management') {
+						script {
+							sh 'pwd'
+						}
+						build job: 'Jenkinsfile', propagate: true, wait: true
+					}
 				}
 			}
 		}
 		stage('build event-management') {
 			steps {
 				script {
-					mainJenkinsFile = load "aegis_backend/event_management/Jenkinsfile"
-					mainJenkinsFile.runjob()
+					dir('aegis_backend/event_management') {
+						script {
+							sh 'pwd'
+						}
+						build job: 'Jenkinsfile', propagate: true, wait: true
+					}
 				}
 			}
 		}
 		stage('build user-management') {
 			steps {
 				script {
-				mainJenkinsFile = load "aegis_backend/user_management/Jenkinsfile"
-				mainJenkinsFile.runjob()
+					dir('aegis_backend/user_management') {
+						script {
+							sh 'pwd'
+						}
+						build job: 'Jenkinsfile', propagate: true, wait: true
+					}
 				}
 			}
 		}
