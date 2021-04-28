@@ -30,7 +30,11 @@ pipeline {
 			steps{
 				script {
 					sh 'echo enterd2'
-					dockerImage = docker.build registry + ":$BUILD_NUMBER"
+					dir('aegis_backend/card_management') {
+						sh 'pwd'
+						dockerImage = docker.build registry + ":$BUILD_NUMBER"
+						sh 'pwd'
+					}
 					sh 'echo $dockerImage'
 					sh 'echo enterd2'
 				}
