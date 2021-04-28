@@ -9,11 +9,11 @@ pipeline {
 		stage('build card-management') {
 			steps {
 				script {
-					dir('aegis_backend/card_management') {
+					dir('aegis_backend') {
 						script {
 							sh 'pwd'
 						}
-						build job: '/Jenkinsfile', propagate: true, wait: true
+						build job: 'card_management', propagate: true, wait: true
 					}
 				}
 			}
